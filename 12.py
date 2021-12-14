@@ -67,10 +67,10 @@ x = np.array(data[:,0])
 y = np.array(data[:,1:3])
 
 ans_6_5 = calc_theta_6_5(x, y, N)
-#print(ans_6_5[0], ans_6_5[1])
+print(ans_6_5[0], ans_6_5[1])
 
 ans_6_17 = calc_theta_6_17(x, y, N)
-#print(ans_6_17[0], ans_6_17[1])
+print(ans_6_17[0], ans_6_17[1])
 
 
 theta_0_list = []
@@ -90,10 +90,11 @@ for k in range(1,N):
     real_ans_2_list.append(3.0)
     real_ans_3_list.append(-2.0)
 
-    x = np.array(data[0:k+1,0])
-    y = np.array(data[0:k+1,1:3])
+    x = np.array(data[0:k,0])
+    y = np.array(data[0:k,1:3])
     #print(x.shape)
-    
+    if k==4:
+        print(x)
     theta_0 = calc_theta_6_5(x, y, k)[0][0]
     theta_1 = calc_theta_6_5(x, y, k)[0][1]
     theta_2 = calc_theta_6_17(x, y, k)[0][0]
@@ -143,3 +144,10 @@ plt.xscale('log')
 plt.xlabel('N')
 plt.ylabel('theta')
 plt.show()
+
+'''
+[ 2.99456713 -2.06897079] [[ 0.03514546 -0.01251624]
+[-0.01251624  0.01086049]]
+[ 2.93908407 -1.98646467] [[ 0.23999299 -0.09665406]
+[-0.09665406  0.0499126 ]]
+'''

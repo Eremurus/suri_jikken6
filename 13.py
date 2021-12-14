@@ -74,7 +74,7 @@ def calc_theta_6_17(x, y, data_num):
 
     return theta, Err_mat
 
-df = pd.read_csv("./suri_jikken6_data/mmse_kadai5.txt",header=None)
+df = pd.read_csv("./suri_jikken6_data/mmse_kadai6.txt",header=None)
 data = np.array(df)
 
 x = np.array(data[:,0])
@@ -104,8 +104,8 @@ for k in range(1,N,2):
     real_ans_2_list.append(3.0)
     real_ans_3_list.append(-2.0)
 
-    x = np.array(data[0:k+1,0])
-    y = np.array(data[0:k+1,1:3])
+    x = np.array(data[0:k,0])
+    y = np.array(data[0:k,1:3])
     #print(x.shape)
     
     theta_0 = calc_theta_6_5(x, y, k)[0][0]
@@ -157,3 +157,8 @@ plt.xscale('log')
 plt.xlabel('N')
 plt.ylabel('theta')
 plt.show()
+
+'''
+[ 3.18835631 -2.09218316]
+[ 2.9942022  -2.01469917]
+'''

@@ -28,7 +28,8 @@ V_n_hat_kari = y - np.dot(phi(x), real_ans)
 V_n_hat_kari = np.dot(V_n_hat_kari, np.transpose(V_n_hat_kari))
 V_n_hat = V_n_hat_kari / (N - n)
 Phi = la.inv(np.dot(np.transpose(phi(x)),phi(x)))
-Err_mat = Phi.dot(V_n_hat * x.T.dot(x)).dot(Phi)
+print("比較",Phi)
+Err_mat = Phi.dot(V_n_hat * phi(x).T.dot(phi(x))).dot(Phi)
 print(Err_mat)
 
 theta_0_list = []

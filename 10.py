@@ -37,6 +37,7 @@ for i in range(1,14):
 
     x = np.array(data[0:data_num,0:2])
     y = np.array(data[0:data_num,2])
+
     y = np.reshape(y, (data_num,1))
     theta_0 = calc_theta(x, y)[0][0]
     theta_1 = calc_theta(x, y)[1][0]

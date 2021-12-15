@@ -10,9 +10,10 @@ def phi(x):
 def saisyou_nijou(theta_pre, Phi_pre, x, y):
     phix = np.reshape(phi(x),(m, 1))
     hidari = np.dot(Phi_pre, phix.T)
+    theta_pre = np.reshape(theta_pre, (m,1))
     #hidari = np.reshape(hidari, (m, 1))
     #print(hidari)
-    migi = np.dot(phi(x), Phi_pre)
+    migi = np.dot(phix, Phi_pre)
     migi = np.reshape(migi,(m, 1))
     #print(phix.T)
     #print(np.dot(migi, phix.T))
@@ -20,16 +21,16 @@ def saisyou_nijou(theta_pre, Phi_pre, x, y):
     #print(migi)
     K = np.dot(hidari, migi)
     #print("Kは",K)
-    theta = theta_pre + np.dot(K, y - np.dot(phi(x), theta_pre)) #+ theta_pre**2
-    #print(theta.shape)
+    #print(theta_pre.shape)
+    theta = theta_pre + np.dot(K, y - np.dot(phix, theta_pre)) #多分ここが変
     phi_migi = np.dot(K, phi(x))
     phi_migi = np.dot(phi_migi, Phi_pre)
     #print(phi_migi)
     Phi = Phi_pre - phi_migi[0]
     #print(theta)
-    print(theta.T)
+    #print(theta.T)
     theta_kari = np.reshape(theta.T, (m,))
-    print(theta_kari)
+    #print(theta_kari)
     return theta_kari, Phi
 
 #print(saisyou_nijou(np.array([2.0,2.0,3.0]), 2.0, np.array([1.0,2.0,3.0]),np.array([1.0,2.0,3.0])))
@@ -43,19 +44,19 @@ def y_k_real(y_pre, y_pre_pre, k):
     y_new = (2.0 - (D/M)*dt)*y_pre + (1.0 + D/M*dt - (K/M)*(dt**2)) * y_pre_pre + ((dt**2)/M) * F(k-2) + w
     return y_new
 
-epsilon = 1.0
+epsilon = 10 **(-6)
 y_pre = 0.0
 y_pre_pre = 0.0
 theta = np.array([0.0,0.0,0.0])
 #theta = np.reshape(theta, (m,1))
 Phi = 1.0/epsilon
 
-for k in range(10):
+for k in range(10000):
     y = y_k_real(y_pre, y_pre_pre, k)
     x = np.array([y_pre, y_pre_pre, F(k-2)])
     theta, Phi = saisyou_nijou(theta, Phi, x, y)
     y_pre_pre = y_pre
     y_pre = y
-    #print(theta.shape)
+    #print(theta)
 
 print(theta)

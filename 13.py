@@ -97,21 +97,22 @@ real_ans_1_list = []
 real_ans_2_list = []
 real_ans_3_list = []
 
-for k in range(1,N,2):
-    N_list.append(k)
+for k in range(1,10):
+    data_num = 2 ** k
+    N_list.append(data_num)
     real_ans_0_list.append(3.0)
     real_ans_1_list.append(-2.0)
     real_ans_2_list.append(3.0)
     real_ans_3_list.append(-2.0)
 
-    x = np.array(data[0:k,0])
-    y = np.array(data[0:k,1:3])
+    x = np.array(data[0:data_num,0])
+    y = np.array(data[0:data_num,1:3])
     #print(x.shape)
     
-    theta_0 = calc_theta_6_5(x, y, k)[0][0]
-    theta_1 = calc_theta_6_5(x, y, k)[0][1]
-    theta_2 = calc_theta_6_17(x, y, k)[0][0]
-    theta_3 = calc_theta_6_17(x, y, k)[0][1]
+    theta_0 = calc_theta_6_5(x, y, data_num)[0][0]
+    theta_1 = calc_theta_6_5(x, y, data_num)[0][1]
+    theta_2 = calc_theta_6_17(x, y, data_num)[0][0]
+    theta_3 = calc_theta_6_17(x, y, data_num)[0][1]
 
     theta_0_list.append(theta_0)
     theta_1_list.append(theta_1)

@@ -1,0 +1,48 @@
+This is e-upTeX, Version 3.141592653-p3.9.0-u1.27-210218-2.6 (utf8.uptex) (TeX Live 2021) (preloaded format=uplatex 2021.12.16)  16 DEC 2021 13:47
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/Users/kaho/suri_jikken6/theme6.tex
+(/Users/kaho/suri_jikken6/theme6.tex
+pLaTeX2e <2020-10-01u04>+2 (based on LaTeX2e <2020-10-01> patch level 4)
+L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/platex/base/jarticle.cls
+Document Class: jarticle 2020/09/30 v1.8f Standard pLaTeX class
+\c@@paper=\count178
+(/usr/local/texlive/2021/texmf-dist/tex/platex/base/jsize10.clo
+File: jsize10.clo 2020/09/30 v1.8f Standard pLaTeX file (size option)
+LaTeX Font Info:    Font shape `JT2/mc/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 27.
+LaTeX Font Info:    Font shape `JY2/mc/m/n' will be
+(Font)              scaled to size 9.6222pt on input line 27.
+)
+\c@part=\count179
+\c@section=\count180
+\c@subsection=\count181
+\c@subsubsection=\count182
+\c@paragraph=\count183
+\c@subparagraph=\count184
+\c@figure=\count185
+\c@table=\count186
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+
+
+/usr/local/texlive/2021/texmf-dist/tex/platex/base/jarticle.cls:613: LaTeX Error: Encoding scheme `JY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.613 ...\DeclareSymbolFont{mincho}{JY1}{mc}{m}{n}
+                                                   
+Here is how much of TeX's memory you used:
+ 209 strings out of 479460
+ 2730 string characters out of 5870463
+ 293259 words of memory out of 5000000
+ 17995 multiletter control sequences out of 15000+600000
+ 406071 words of font info for 45 fonts, out of 8000000 for 9000
+ 929 hyphenation exceptions out of 8191
+ 44i,0n,50p,153b,44s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+No pages of output.

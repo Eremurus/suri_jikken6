@@ -4,7 +4,7 @@ import numpy.linalg as la
 import matplotlib.pyplot as plt
 
 n = 2
-N = 1000
+N = 1000 
 V = np.array([[100.0, 0.0],[0.0, 1.0]])
 
 def phi(x):

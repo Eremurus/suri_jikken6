@@ -8,15 +8,12 @@ data = np.array(df)
 
 x_1 = np.array(data[:,0])
 x_2 = np.array(data[:,1])
-#x_1 = np.reshape(x_1,(1000, 1))
-#x_2 = np.reshape(x_2,(1000, 1))
-#plt.scatter(x_1, x_2)
-#plt.show()
 best_dist = 10**6
 
 K = 3
 N = 1000
 repeat_times = 10
+f_ = open("21_meu.txt","w")
 
 fig = plt.figure()
 ax1 = fig.add_subplot(3, 4, 1)
@@ -39,6 +36,8 @@ for time in range(repeat_times):
     y2 = np.random.rand()*10.0 - 5.0
     y3 = np.random.rand()*10.0 - 5.0
     meu = [[x1, y1],[x2, y2],[x3 ,y3]]
+    meu_tmp = meu
+    f_.writelines([str(meu),"\n"])
     meu_pre = [[0.0, 0.0] for _ in range(K)]
 
     meu = np.array(meu)
@@ -77,7 +76,8 @@ for time in range(repeat_times):
                 #print(r.shape)
                 bunsi += r[i][l] * x
             meu_pre[l] = meu[l]
-            meu[l] = bunsi / bunbo
+            if bunbo != 0:
+                meu[l] = bunsi / bunbo
         tmp = np.sum((meu_pre-meu)**2,axis=1)
         max_movement = tmp.max()
     
@@ -102,9 +102,7 @@ for time in range(repeat_times):
 
     dist_sum = 0.0
     a = np.array([[cluster_0_1[i], cluster_0_2[i]] for i in range(len(cluster_0_2))])
-    #print(a.shape)
     b = np.array(meu[0])
-    #print(b.shape)
     if len(cluster_0_2) != 0:
         dist_sum += np.sum(np.sqrt(np.sum((a - b)**2, axis=1)))
 
@@ -128,6 +126,7 @@ for time in range(repeat_times):
         best_cluster_2_1 = cluster_2_1
         best_cluster_2_2 = cluster_2_2
         best_dist = dist_sum
+        meu_best = meu_tmp
 
 #fig.tight_layout()     
 plt.show()
@@ -137,6 +136,7 @@ plt.scatter(best_cluster_1_1, best_cluster_1_2)
 plt.scatter(best_cluster_2_1, best_cluster_2_2)
 plt.show()
 
+f_.writelines(["最も良いクラスタを与えた初期値は",str(meu_best)])
 f = open("21_clusters.txt","w")
 f.write("各データ点の、所属するクラスタの重心からの距離の平均は以下 \n")
 f.write(str(best_dist))
@@ -151,3 +151,4 @@ f.write("cluster2 は以下の点 \n")
 f.writelines([str((best_cluster_2_1[i], best_cluster_2_2[i])) for i in range(len(best_cluster_2_2))])
 
 f.close()
+f_.close()

@@ -3,16 +3,19 @@ import numpy as np
 import numpy.linalg as la
 import matplotlib.pyplot as plt
 
+#基底関数
 def phi(x):
     kitei = np.array([x**0, x, x**2, x**3])
     return np.transpose(kitei)
 
+#パラメータの予測値を計算
 def calc_theta(x, y):
     Phi = la.inv(np.dot(np.transpose(phi(x)),phi(x)))
     ans_kari = np.dot(Phi, np.transpose(phi(x)))
     ans = np.dot(ans_kari, y)
     return ans
 
+#データ読み込み
 df = pd.read_csv("./suri_jikken6_data/mmse_kadai2.txt",header=None)
 data = np.array(df)
 n = 4
@@ -21,17 +24,19 @@ N = 10000
 x = np.array(data[:,0])
 y = np.array(data[:,1])
 
-real_ans = calc_theta(x, y)
-print(real_ans)
+#パラメータ計算
+pred_ans = calc_theta(x, y)
+print(pred_ans)
 
-V_n_hat_kari = y - np.dot(phi(x), real_ans)
+#推定誤差共分散行列を求める
+V_n_hat_kari = y - np.dot(phi(x), pred_ans)
 V_n_hat_kari = np.dot(V_n_hat_kari, np.transpose(V_n_hat_kari))
 V_n_hat = V_n_hat_kari / (N - n)
 Phi = la.inv(np.dot(np.transpose(phi(x)),phi(x)))
-print("比較",Phi)
 Err_mat = Phi.dot(V_n_hat * phi(x).T.dot(phi(x))).dot(Phi)
 print(Err_mat)
 
+#プロットのためのリスト
 theta_0_list = []
 theta_1_list = []
 theta_2_list = []
@@ -42,13 +47,14 @@ real_ans_1_list = []
 real_ans_2_list = []
 real_ans_3_list = []
 
+#データ数を変えてパラメータ推定
 for i in range(2,14):
     data_num = 2**i
     N_list.append(data_num)
-    real_ans_0_list.append(real_ans[0])
-    real_ans_1_list.append(real_ans[1])
-    real_ans_2_list.append(real_ans[2])
-    real_ans_3_list.append(real_ans[3])
+    real_ans_0_list.append(-0.5)
+    real_ans_1_list.append(2.0)
+    real_ans_2_list.append(0.2)
+    real_ans_3_list.append(-0.1)
 
     x = np.array(data[0:data_num,0])
     y = np.array(data[0:data_num,1])
@@ -62,6 +68,7 @@ for i in range(2,14):
     theta_2_list.append(theta_2)
     theta_3_list.append(theta_3)
 
+#プロット
 fig, ax = plt.subplots(facecolor="w")
 ax.plot(N_list, theta_0_list, label="estimate")
 ax.plot(N_list, real_ans_0_list, label="true")
@@ -102,15 +109,16 @@ plt.xlabel('N')
 plt.ylabel('theta')
 plt.show()
 
+#決定変数を求める
 y_bar = np.mean(y)
-bunsi = np.sum((np.dot(phi(x),real_ans) - y_bar)**2)
+bunsi = np.sum((np.dot(phi(x),pred_ans) - y_bar)**2)
 bunbo = np.sum((y - y_bar)**2)
 C = bunsi / bunbo
 print(C)
 
 #決定変数 0.462430059307111
 #[-0.50902942  1.97586067  0.19774405 -0.09866691]
-#[[ 3.88685770e-02 -3.02526727e-04 -2.59887092e-03  1.17780810e-05]
-#[-3.02526727e-04  4.32490308e-03  1.38561663e-05 -2.43141152e-04]
-#[-2.59887092e-03  1.38561663e-05  1.74245886e-04 -4.26806302e-07]
-#[ 1.17780810e-05 -2.43141152e-04 -4.26806302e-07  1.36713153e-05]]
+#[[ 2.02344200e-03 -1.18649745e-05 -1.34831217e-04  3.97116548e-07]
+#[-1.18649745e-05  6.75301451e-04 -1.89854517e-07 -3.79471936e-05]
+#[-1.34831217e-04 -1.89854517e-07  1.60391021e-05  6.35182005e-08]
+#[ 3.97116548e-07 -3.79471936e-05  6.35182005e-08  2.52871068e-06]]

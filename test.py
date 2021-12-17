@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import numpy.linalg as la
 
+'''
 m = 3
 def phi(x):
     return x
@@ -59,3 +60,20 @@ for k in range(10):
     #print(theta.shape)
 
 print(theta)
+'''
+theta = np.array([1,2,3])
+Phi = 2.0
+I = np.eye(3)
+y = 0
+x = np.array([1,2,3])
+
+x_reshape = x.reshape(3,1)
+tmp = x_reshape.dot(Phi).dot(x_reshape.T)
+K = Phi * x_reshape.T.dot(la.inv(I + tmp))
+#print(theta.shape)
+print(y)
+print(x.dot(theta))
+theta = theta + K * (y - x.dot(theta))
+print(theta.shape)
+Phi = Phi - K.dot(x).dot(Phi)
+

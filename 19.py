@@ -7,13 +7,13 @@ import matplotlib.pyplot as plt
 a_k = 0.9
 c_k = 2.0
 theta = 3.0
-theta_real = np.random.normal(loc=3.0, scale=2.0)
+theta_real = np.random.randon(3.0, 2.0)
 V_k = 2.0
 theta_real_list = []
-theta_list = []
+theta_list = [theta]
 k_list = []
 V_k_list = [V_k]
-X_k_list = [0.0]
+X_k_list = []
 
 for k in range(1,101):
     k_list.append(k)
@@ -32,11 +32,14 @@ for k in range(1,101):
 
 theta_ks = theta
 V_ks = V_k
-
+#print(len(V_k_list))
+#print(len(X_k_list))
+#print(len(theta_list))
 for i in reversed(range(100)):
-    g_k = a_k * V_k_list[i] / X_k_list[i+1]
+    #print(i)
+    g_k = a_k * V_k_list[i] / X_k_list[i]
     theta_ks = theta_list[i] + g_k * (theta_ks - a_k * theta_list[i])
-    V_ks = V_k_list[i] + (g_k**2) * (V_ks - X_k_list[i+1])
+    V_ks = V_k_list[i] + (g_k**2) * (V_ks - X_k_list[i])
 
 print(theta_ks)
 print(V_ks)

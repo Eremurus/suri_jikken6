@@ -9,18 +9,13 @@ def phi(x):
 f = open("16_1_theta.txt", "w")
 
 m = 3
-def saisyou_nijou(theta_pre, Phi_pre, x, y):
-    phix = np.reshape(phi(x),(m, 1))
-    hidari = np.dot(Phi_pre, phix.T)
-    migi = np.dot(phi(x), Phi_pre)
-    migi = np.reshape(migi,(m, 1))
-    migi = la.inv(np.eye(m) + np.dot(migi, phix.T))
-    K = np.dot(hidari, migi)
-    theta = theta_pre + np.dot(K, y - np.dot(phi(x), theta_pre))
-    phi_migi = np.dot(K, phi(x))
-    phi_migi = np.dot(phi_migi, Phi_pre)
-    Phi = Phi_pre - phi_migi[0]
-    theta = np.reshape(theta.T, (m,))
+def saisyou_nijou(theta, Phi, x, y):
+    x_reshape = x.reshape(3,1)
+    I = np.eye(3)
+    tmp = x_reshape.dot(Phi).dot(x_reshape.T)
+    K = Phi * x_reshape.T.dot(la.inv(I + tmp))
+    theta = theta + K.dot(y - x.dot(theta))
+    Phi = Phi - K.dot(x).dot(Phi)
     return theta, Phi
 
 #print(saisyou_nijou(np.array([2.0,2.0,3.0]), 2.0, np.array([1.0,2.0,3.0]),np.array([1.0,2.0,3.0])))

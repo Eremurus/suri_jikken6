@@ -8,10 +8,12 @@ N = 1000
 V_1 = np.array([[100.0, 0.0],[0.0, 1.0]])
 V_2 = np.array([[2.0, 0.0],[0.0, 1.0]])
 
+#基底関数
 def phi(x):
     kitei = np.array([[x**0, x**0],[x, x**2]])
     return kitei.T
 
+#6_5 の方法でパラメータを計算し、推定誤差分散を求める関数
 def calc_theta_6_5(x, y,data_num):
     Phi = np.array([[0.0,0.0],[0.0,0.0]])
     for i in range(data_num):
@@ -27,6 +29,7 @@ def calc_theta_6_5(x, y,data_num):
     Err_mat = np.array([[0.0,0.0],[0.0,0.0]])
 
     for i in range(data_num):
+        #V により場合分け
         if i < 500:
             phi_v = np.dot(phi(x)[i].T, V_1)
         else:
@@ -38,6 +41,7 @@ def calc_theta_6_5(x, y,data_num):
 
     return theta, Err_mat
 
+#6_17 によりパラメータと推定誤差分散を計算する関数
 def calc_theta_6_17(x, y, data_num):
     Phi = np.array([[0.0,0.0],[0.0,0.0]])
     for i in range(data_num):
@@ -60,9 +64,11 @@ def calc_theta_6_17(x, y, data_num):
 
     theta = np.dot(Phi, migi)
 
+    #推定誤差分散を計算
     Err_mat = np.array([[0.0,0.0],[0.0,0.0]])
 
     for i in range(data_num):
+        #V により場合わけ
         if i < 500:
             phi_v = np.dot(phi(x)[i].T, V_1)
         else:
@@ -74,6 +80,7 @@ def calc_theta_6_17(x, y, data_num):
 
     return theta, Err_mat
 
+#データ読み込み
 df = pd.read_csv("./suri_jikken6_data/mmse_kadai6.txt",header=None)
 data = np.array(df)
 
@@ -86,7 +93,7 @@ print(ans_6_5[0])
 ans_6_17 = calc_theta_6_17(x, y, N)
 print(ans_6_17[0])
 
-
+#プロットのためのリスト
 theta_0_list = []
 theta_1_list = []
 theta_2_list = []
@@ -97,8 +104,8 @@ real_ans_1_list = []
 real_ans_2_list = []
 real_ans_3_list = []
 
-for k in range(1,10):
-    data_num = 2 ** k
+#データ数を変えてプロット
+for data_num in range(1, N+1):
     N_list.append(data_num)
     real_ans_0_list.append(3.0)
     real_ans_1_list.append(-2.0)

@@ -4,6 +4,7 @@ import numpy as np
 import numpy.linalg as la
 import matplotlib.pyplot as plt
 
+#パラメータ
 a_k = 0.9
 c_k = 2.0
 theta = 3.0
@@ -13,6 +14,7 @@ theta_real_list = []
 theta_list = []
 k_list = []
 
+#Kalman フィルタを繰り返し適用
 for k in range(1,101):
     k_list.append(k)
     v_k = np.random.normal()
@@ -26,6 +28,7 @@ for k in range(1,101):
     theta_real_list.append(theta_real)
     theta_list.append(theta)
 
+#プロット
 fig, ax = plt.subplots(facecolor="w")
 ax.plot(k_list, theta_list, label="estimate")
 ax.plot(k_list, theta_real_list, label="real theta")

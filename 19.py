@@ -4,10 +4,11 @@ import numpy as np
 import numpy.linalg as la
 import matplotlib.pyplot as plt
 
+#パラメータ
 a_k = 0.9
 c_k = 2.0
 theta = 3.0
-theta_real = np.random.randon(3.0, 2.0)
+theta_real = np.random.normal(3.0, 2.0)
 V_k = 2.0
 theta_real_list = []
 theta_list = [theta]
@@ -15,6 +16,7 @@ k_list = []
 V_k_list = [V_k]
 X_k_list = []
 
+#Kalman フィルタを繰り返し適用
 for k in range(1,101):
     k_list.append(k)
     v_k = np.random.normal()
@@ -32,15 +34,15 @@ for k in range(1,101):
 
 theta_ks = theta
 V_ks = V_k
-#print(len(V_k_list))
-#print(len(X_k_list))
-#print(len(theta_list))
+
+#RSA アルゴリズムを適用
 for i in reversed(range(100)):
     #print(i)
     g_k = a_k * V_k_list[i] / X_k_list[i]
     theta_ks = theta_list[i] + g_k * (theta_ks - a_k * theta_list[i])
     V_ks = V_k_list[i] + (g_k**2) * (V_ks - X_k_list[i])
 
+#結果
 print(theta_ks)
 print(V_ks)
 print(V_ks / 2.0)

@@ -77,3 +77,13 @@ theta = theta + K * (y - x.dot(theta))
 print(theta.shape)
 Phi = Phi - K.dot(x).dot(Phi)
 
+print(np.array([1,2,3]))
+print(np.array([1,2,3]).shape)
+
+def dora(Phi,theta):
+    x_reshape = x.reshape(1,3)
+    I = 1.0
+    tmp = x_reshape.dot(Phi).dot(x_reshape.T)
+    K = Phi * x_reshape.T.dot(la.inv(I + tmp))
+    theta = theta + K.dot(y - x.dot(theta))
+    Phi = Phi - K.dot(x).dot(Phi)

@@ -23,7 +23,6 @@ n = 3
 x = np.array(data[0:N,0])
 y = np.array(data[0:N,1])
 Phi_N = la.inv(np.dot(np.transpose(phi(x)),phi(x)))
-#print(Phi_N.shape)
 
 N_ans = calc_theta(x, y)
 print("前半の推定値:",N_ans)
@@ -34,7 +33,6 @@ print("前半の推定誤差:",V_n_hat_N)
 
 kari = np.dot(phi(x).T, V_n_hat_N)
 Phi_Q_N = la.inv(np.dot(kari, phi(x)))
-
 
 #後の4000組
 x = np.array(data[N:,0])
@@ -52,7 +50,9 @@ kari = np.dot(phi(x).T, V_n_hat_M)
 Phi_Q_M = la.inv(np.dot(kari, phi(x)))
 
 #合成
-gousei_ans = np.dot(la.inv(la.inv(Phi_Q_N) + la.inv(Phi_Q_M)), np.dot(la.inv(Phi_Q_N), N_ans)+np.dot(la.inv(Phi_Q_M), M_ans))
+Phi1 = Phi_N * V_n_hat_N
+Phi2 = Phi_M * V_n_hat_M
+gousei_ans = la.inv(la.inv(Phi1)+ la.inv(Phi2)).dot(la.inv(Phi1).dot(N_ans)+la.inv(Phi2).dot(M_ans))
 print("合成の推定値:",gousei_ans)
 x = np.array(data[:,0])
 y = np.array(data[:,1])
@@ -64,6 +64,6 @@ print("全データの推定値:",ans)
 前半の推定誤差: 96.86329354733162
 後半の推定値: [ 0.09848311  3.10040485 -2.09100212]
 後半の推定誤差: 0.010304240740875456
-合成の推定値: [ 0.00708335  3.28053063 -2.19089269]
+合成の推定値: [ 0.09846859  3.10043371 -2.09101821]
 全データの推定値: [ 0.04373209  3.20866562 -2.15117856]
 '''

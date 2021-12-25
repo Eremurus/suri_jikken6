@@ -59,6 +59,12 @@ y = np.array(data[:,1])
 ans = calc_theta(x, y)
 print("全データの推定値:",ans)
 
+gousei_gosa = np.sum((phi(x).dot(gousei_ans)-y)**2)/10000
+gosa = np.sum((phi(x).dot(ans)-y)**2)/10000
+
+print(gousei_gosa)
+print(gosa)
+
 '''
 前半の推定値: [ 0.00707684  3.28054335 -2.1908997 ]
 前半の推定誤差: 96.86329354733162

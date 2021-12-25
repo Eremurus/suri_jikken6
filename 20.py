@@ -40,34 +40,39 @@ for time in range(repeat_times):
         j += 1
         hidari = np.array([[0.0, 0.0],[0.0, 0.0]])
         migi = np.array([0.0, 0.0])
+        #α を求める
         for i in range(N):
-            migi += phi(x)[i].dot(beta).dot(y[i])
-            phi_beta = phi(x)[i].dot(beta)
-            hidari += phi_beta.dot(phi_beta.T)
+            phi_beta = np.dot(phi(x)[i], beta)
+            migi += phi_beta * y[i]
+            phi_beta = np.reshape(phi_beta, (2,1))
+            hidari += np.dot(phi_beta, phi_beta.T)
         hidari = la.inv(hidari)
         alpha = np.dot(hidari, migi)
         
         hidari = np.array([[0.0, 0.0, 0.0],[0.0, 0.0, 0.0],[0.0, 0.0, 0.0]])
         migi = np.array([0.0, 0.0, 0.0])
 
+        #β を求める
         for i in range(N):
-            alpha = alpha.reshape(2,1)
-            alpha_T_phi = alpha.T.dot(phi(x)[i])
-            alpha_T_phi_T = alpha_T_phi.T.reshape(3,)
-            migi += alpha_T_phi_T.dot(y[i])
-            hidari += alpha_T_phi_T.dot(alpha_T_phi)
+            alpha_reshape = np.reshape(alpha, (2, 1))
+            alpha_T_phi = np.dot(alpha_reshape.T, phi(x)[i])
+            alpha_T_phi_T = np.reshape(alpha_T_phi.T,(3,))
+            migi = migi + y[i] * (alpha_T_phi_T)
+            alpha_T_phi = np.reshape(alpha_T_phi, (1,3))
+            hidari += np.dot(alpha_T_phi.T, alpha_T_phi)
         hidari = la.inv(hidari)
         beta = np.dot(hidari, migi)
+
+    #誤差を計算
     gosa = np.dot(np.dot(alpha.T, phi(x)), beta) - y
     gosa = np.sum(gosa**2) / N
     print("初期値",alpha_syoki, beta_syoki,"alpha:",alpha,"beta:",beta,"誤差:",gosa)
     gosa_list.append([gosa, alpha, beta, alpha_syoki, beta_syoki])
 
-print(gosa_list[np.argmin(gosa_list)])
 '''
 (1,-2)
 (0.5,-1,2)
-初期値 [ 0.88198351 -1.53665416] [ 0.28147475 -1.32918369  2.53393405] alpha: [ 0.87907965 -1.74679254] beta: [ 0.57773367 -1.13074314  2.29569288] 誤差: 0.33289692520721625
+***初期値 [ 0.88198351 -1.53665416] [ 0.28147475 -1.32918369  2.53393405] alpha: [ 0.87907965 -1.74679254] beta: [ 0.57773367 -1.13074314  2.29569288] 誤差: 0.33289692520721625
 初期値 [ 0.7676491  -2.54174922] [ 1.22429426 -0.65419038  2.28962945] alpha: [ 0.78894962 -1.55099889] beta: [ 0.64660782 -1.25410935  2.59422949] 誤差: 0.3329193995801536
 初期値 [ 0.62984476 -2.99070649] [ 1.42529549 -0.2928604   2.15821323] alpha: [ 0.81437652 -1.60245924] beta: [ 0.62617943 -1.21545627  2.51018518] 誤差: 0.33291663389390613
 初期値 [ 0.13134968 -2.26728033] [-0.37424283 -1.87392872  1.57321468] alpha: [ 1.2131248  -2.37282353] beta: [ 0.42140601 -0.81369574  1.69847641] 誤差: 0.33293760571075365
